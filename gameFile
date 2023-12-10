@@ -1,0 +1,122 @@
+@echo off
+title Game Test
+color 0A
+
+:Menu
+	cls
+	echo 1. Poker Game
+	echo 2. Test Code
+	echo 3. Credits
+	echo 4. Exit
+	set /p answer=Select a menu option:
+	if %answer%==1 goto Poker
+	if %answer%==2 goto Test_Code
+	if %answer%==3 goto Credits
+	if %answer%==4 goto Exit
+
+:Poker
+	cls
+
+	set /a player1Cards[0]=%random% %%13
+	set /a player1Cards[1]=%random% %%4
+	set /a player1Cards[2]=%random% %%13
+	set /a player1Cards[3]=%random% %%4
+
+	:Loop1Top
+	if %player1Cards[0]%==%player1Cards[2]% ( if %player1Cards[1]%==%player1Cards[3]% (
+		set /a player1Cards[2]=%random% %%13
+		set /a player1Cards[3]=%random% %%4
+		goto Loop1Top
+	))
+	:Loop1Bottom
+
+	echo Your Cards:
+	call :PrintCard %player1Cards[0]%, %player1Cards[1]%
+	call :PrintCard %player1Cards[2]%, %player1Cards[3]%
+
+	pause
+	goto Menu
+
+:Test_Code
+	cls
+	call :PrintCard 0
+	pause
+	goto Menu
+
+:Credits
+	cls
+	echo Credits
+	echo.
+	echo Thank you for playing :)
+	pause
+	goto Menu
+
+:Exit
+	cls
+	echo Thanks for playing :)
+	pause
+	exit /b
+
+:PrintCard
+	set /a card=%~1
+	set /a suit=%~2
+	goto CardCase%card%
+	:PrintCardReturn
+	goto SuitCase%suit%
+
+:CardCase0
+	set "cardret=Two"
+	goto PrintCardReturn
+:CardCase1
+	set "cardret=Three"
+	goto PrintCardReturn
+:CardCase2
+	set "cardret=Four"
+	goto PrintCardReturn
+:CardCase3
+	set "cardret=Five"
+	goto PrintCardReturn
+:CardCase4
+	set "cardret=Six"
+	goto PrintCardReturn
+:CardCase5
+	set "cardret=Seven"
+	goto PrintCardReturn
+:CardCase6
+	set "cardret=Eight"
+	goto PrintCardReturn
+:CardCase7
+	set "cardret=Nine"
+	goto PrintCardReturn
+:CardCase8
+	set "cardret=Ten"
+	goto PrintCardReturn
+:CardCase9
+	set "cardret=Jack"
+	goto PrintCardReturn
+:CardCase10
+	set "cardret=Queen"
+	goto PrintCardReturn
+:CardCase11
+	set "cardret=King"
+	goto PrintCardReturn
+:CardCase12
+	set "cardret=Ace"
+	goto PrintCardReturn
+
+:SuitCase0
+	set "suitret= of Hearts"
+	goto EndCase
+:SuitCase1
+	set "suitret= of Diamonds"
+	goto EndCase
+:SuitCase2
+	set "suitret= of Clubs"
+	goto EndCase
+:SuitCase3
+	set "suitret= of Spades"
+	goto EndCase
+
+:EndCase
+	echo %cardret%%suitret%
+	exit /b 0
